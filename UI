@@ -1,0 +1,71 @@
+import React, { useState } from "react";
+import { Box, Flex, Heading, Input, Button, IconButton, useColorModeValue, Text, Image } from "@chakra-ui/react";
+import { FaPlus, FaFolder, FaFile } from "react-icons/fa";
+
+const Index = () => {
+  const [files, setFiles] = useState([]);
+  const [folders, setFolders] = useState([]);
+  const [newFile, setNewFile] = useState("");
+  const [newFolder, setNewFolder] = useState("");
+
+  const bgColor = useColorModeValue("gray.100", "gray.700");
+  const textColor = useColorModeValue("gray.800", "gray.200");
+
+  const handleFileChange = (e) => {
+    setNewFile(e.target.value);
+  };
+
+  const handleFolderChange = (e) => {
+    setNewFolder(e.target.value);
+  };
+
+  const addFile = () => {
+    if (newFile.trim()) {
+      setFiles([...files, newFile.trim()]);
+      setNewFile("");
+    }
+  };
+
+  const addFolder = () => {
+    if (newFolder.trim()) {
+      setFolders([...folders, newFolder.trim()]);
+      setNewFolder("");
+    }
+  };
+
+  return (
+    <Box bg={bgColor} minH="100vh" p={4}>
+      <Flex justify="space-between" mb={4}>
+        <Heading size="md" color={textColor}>
+          My Drive
+        </Heading>
+        <Flex>
+          <Input placeholder="New File" value={newFile} onChange={handleFileChange} mr={2} />
+          <IconButton aria-label="Add File" icon={<FaPlus />} onClick={addFile} colorScheme="blue" />
+          <Input placeholder="New Folder" value={newFolder} onChange={handleFolderChange} ml={2} mr={2} />
+          <IconButton aria-label="Add Folder" icon={<FaFolder />} onClick={addFolder} colorScheme="blue" />
+        </Flex>
+      </Flex>
+      <Box>
+        {folders.map((folder, index) => (
+          <Flex key={index} align="center" mb={2}>
+            <FaFolder color={textColor} />
+            <Text ml={2} color={textColor}>
+              {folder}
+            </Text>
+          </Flex>
+        ))}
+        {files.map((file, index) => (
+          <Flex key={index} align="center" mb={2}>
+            <FaFile color={textColor} />
+            <Text ml={2} color={textColor}>
+              {file}
+            </Text>
+          </Flex>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+export default Index;
